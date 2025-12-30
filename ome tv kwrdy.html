@@ -1,0 +1,1418 @@
+cat > /mnt/user-data/outputs/kurd-live-complete/public/index.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کورد لایڤ - Kurd Live</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&family=Rubik:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D62828;
+            --secondary: #003049;
+            --accent: #F77F00;
+            --success: #06D6A0;
+            --bg-dark: #0D1B2A;
+            --bg-card: #1B263B;
+            --text-light: #E0E1DD;
+            --text-dim: #778DA9;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #F8F9FA;
+            --bg-card: #FFFFFF;
+            --text-light: #212529;
+            --text-dim: #6C757D;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(214, 40, 40, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(247, 127, 0, 0.1) 0%, transparent 50%);
+            animation: bgMove 15s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        [data-theme="light"] body::before {
+            opacity: 0.5;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 30px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            min-height: 100vh;
+        }
+
+        /* Auth Screen */
+        .auth-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .auth-container {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            border: 2px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-logo {
+            font-family: 'Rubik', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: rgba(214, 40, 40, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            background: rgba(214, 40, 40, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(214, 40, 40, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(214, 40, 40, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-dim);
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .support-links {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .support-links h4 {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .support-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-direction: column;
+        }
+
+        .support-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.9rem;
+            background: rgba(214, 40, 40, 0.1);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .support-btn:hover {
+            background: rgba(214, 40, 40, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .support-btn.skype {
+            background: rgba(0, 175, 240, 0.1);
+            border-color: rgba(0, 175, 240, 0.3);
+        }
+
+        .support-btn.skype:hover {
+            background: rgba(0, 175, 240, 0.2);
+            border-color: #00aff0;
+        }
+
+        /* Chat Interface */
+        .chat-interface {
+            display: none;
+        }
+
+        .chat-interface.active {
+            display: block;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(20deg);
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #B71C1C;
+        }
+
+        .logo {
+            font-family: 'Rubik', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s ease infinite;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(214, 40, 40, 0.15);
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .server-status {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .server-indicator {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .video-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .video-container {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            aspect-ratio: 16/9;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background: #000;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.5) 100%);
+            pointer-events: none;
+        }
+
+        .video-label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .connection-quality {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quality-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+
+        .no-video {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            color: var(--text-dim);
+        }
+
+        .no-video-icon {
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .local-video-container {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            aspect-ratio: 4/3;
+            max-height: 250px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #04A777);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--accent), #D56F00);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), #00243D);
+            color: white;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .status-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(214, 40, 40, 0.05);
+            border-radius: 8px;
+        }
+
+        .status-value {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .status-value.active {
+            color: var(--success);
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-card);
+        }
+
+        .message {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            max-width: 85%;
+            word-wrap: break-word;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message.stranger {
+            align-self: flex-start;
+            background: linear-gradient(135deg, var(--secondary), rgba(0, 48, 73, 0.8));
+            color: white;
+        }
+
+        .message.you {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary), rgba(183, 28, 28, 0.8));
+            color: white;
+        }
+
+        .message.system {
+            align-self: center;
+            background: rgba(119, 141, 169, 0.2);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(214, 40, 40, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            background: rgba(214, 40, 40, 0.08);
+            border-color: var(--primary);
+        }
+
+        .btn-send {
+            min-width: auto;
+            padding: 0.75rem 1.25rem;
+        }
+
+        .settings-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle {
+            width: 50px;
+            height: 26px;
+            background: rgba(119, 141, 169, 0.3);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle.active {
+            background: var(--success);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle.active::after {
+            left: 27px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: slideInRight 0.4s ease;
+            max-width: 350px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                padding: 2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Authentication Screen -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-container">
+            <h1 class="auth-logo">کورد لایڤ</h1>
+            <p class="auth-subtitle">ڤیدیۆ چات لەگەڵ کوردان</p>
+
+            <!-- Login Form -->
+            <form id="loginForm" style="display: none;">
+                <div class="form-group">
+                    <label>ئیمەیڵ</label>
+                    <input type="email" id="loginEmail" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>وشەی نهێنی</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span>چوونەژوورەوە</span>
+                </button>
+                <div class="auth-switch">
+                    ئەکاونتت نییە؟ <a href="#" onclick="showRegister(); return false;">خۆ تۆمار بکە</a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>ناو</label>
+                    <input type="text" id="registerName" required placeholder="ناوی تەواو">
+                </div>
+                <div class="form-group">
+                    <label>ئیمەیڵ</label>
+                    <input type="email" id="registerEmail" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>وشەی نهێنی</label>
+                    <input type="password" id="registerPassword" required placeholder="••••••••" minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span>خۆ تۆمارکردن</span>
+                </button>
+                <div class="auth-switch">
+                    ئەکاونتت هەیە؟ <a href="#" onclick="showLogin(); return false;">چوونەژوورەوە</a>
+                </div>
+            </form>
+
+            <!-- Support Links -->
+            <div class="support-links">
+                <h4>پشتیوانی و یارمەتی</h4>
+                <div class="support-buttons">
+                    <a href="mailto:kitk77716@gmail.com" class="support-btn">
+                        <span>📧</span>
+                        <span>kitk77716@gmail.com</span>
+                    </a>
+                    <a href="skype:live:.cid.kitk77716?chat" class="support-btn skype">
+                        <span>💬</span>
+                        <span>پەیوەندی لە سکایپ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
+    <div class="chat-interface" id="chatInterface">
+        <div class="container">
+            <header>
+                <div class="theme-toggle" id="themeToggle" title="گۆڕینی دیزاین">🌙</div>
+                <div class="user-menu">
+                    <span class="user-name" id="userName"></span>
+                    <button class="logout-btn" onclick="logout()">دەرچوون</button>
+                </div>
+                
+                <h1 class="logo">کورد لایڤ</h1>
+                <p class="tagline">ڤیدیۆ چاتی ڕاستەوخۆ</p>
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    <span>LIVE</span>
+                </div>
+                <div class="server-status">
+                    <div class="server-indicator"></div>
+                    <span>پەیوەستە بە سێرڤەری جیهانی</span>
+                </div>
+            </header>
+
+            <div class="main-grid">
+                <div class="video-section">
+                    <div class="video-container">
+                        <video id="remoteVideo" autoplay playsinline></video>
+                        <div class="video-overlay"></div>
+                        <div class="video-label">کەسێکی نەناسراو</div>
+                        <div class="connection-quality" id="connectionQuality" style="display: none;">
+                            <div class="quality-indicator"></div>
+                            <span>باش</span>
+                        </div>
+                        <div class="no-video" id="noRemoteVideo">
+                            <div class="no-video-icon">📹</div>
+                            <p>چاوەڕوانی پەیوەندی ڤیدیۆ...</p>
+                        </div>
+                    </div>
+
+                    <div class="local-video-container">
+                        <video id="localVideo" autoplay muted playsinline></video>
+                        <div class="video-overlay"></div>
+                        <div class="video-label">تۆ</div>
+                        <div class="no-video" id="noLocalVideo">
+                            <div class="no-video-icon">📷</div>
+                            <p>دوگمەی "دەستپێکردن" لێبدە</p>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <button class="btn-success" id="startBtn">
+                            <span>🎥</span>
+                            <span>دەستپێکردن</span>
+                        </button>
+                        <button class="btn-warning" id="nextBtn" disabled>
+                            <span>⏭</span>
+                            <span>کەسی تر</span>
+                        </button>
+                        <button class="btn-secondary" id="toggleVideoBtn" disabled>
+                            <span id="videoIcon">📹</span>
+                            <span id="videoText">کامێرا</span>
+                        </button>
+                        <button class="btn-secondary" id="toggleAudioBtn" disabled>
+                            <span id="audioIcon">🎤</span>
+                            <span id="audioText">مایک</span>
+                        </button>
+                        <button class="btn-primary" id="stopBtn" disabled>
+                            <span>🛑</span>
+                            <span>ڕاگرتن</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="card">
+                        <h3 class="card-title">دۆخی پەیوەندی</h3>
+                        <div class="status-info">
+                            <div class="status-item">
+                                <span>دۆخ:</span>
+                                <span class="status-value" id="connectionStatus">ئامادە</span>
+                            </div>
+                            <div class="status-item">
+                                <span>ئۆنلاین:</span>
+                                <span class="status-value active" id="onlineCount">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span>کات:</span>
+                                <span class="status-value" id="duration">00:00</span>
+                            </div>
+                            <div class="status-item">
+                                <span>سێرڤەر:</span>
+                                <span class="status-value active">🌍 Global</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">چات</h3>
+                        <div class="chat-container">
+                            <div class="messages" id="messages">
+                                <div class="message system">چات ئامادەیە</div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="messageInput" placeholder="پەیامەکەت بنووسە..." disabled>
+                                <button class="btn-primary btn-send" id="sendBtn" disabled>
+                                    <span>📤</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">پشتیوانی</h3>
+                        <div class="support-buttons">
+                            <a href="mailto:kitk77716@gmail.com" class="support-btn">
+                                <span>📧</span>
+                                <span>ئیمەیڵ</span>
+                            </a>
+                            <a href="skype:live:.cid.kitk77716?chat" class="support-btn skype">
+                                <span>💬</span>
+                                <span>سکایپ</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">ڕێکخستنەکان</h3>
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <span>خۆکارانە دووبارە</span>
+                                <div class="toggle" id="autoReconnect"></div>
+                            </div>
+                            <div class="setting-item">
+                                <span>دەنگی ئاگادارکردنەوە</span>
+                                <div class="toggle active" id="soundNotif"></div>
+                            </div>
+                            <div class="setting-item">
+                                <span>کوالیتی بەرز</span>
+                                <div class="toggle active" id="hdQuality"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const SERVER_URL = 'http://localhost:3000';
+        let socket;
+        let peerConnection;
+        let localStream;
+        let currentToken = localStorage.getItem('kurdlive_token');
+        let videoEnabled = true;
+        let audioEnabled = true;
+
+        if (currentToken) {
+            showChatInterface();
+        }
+
+        const themeToggle = document.getElementById('themeToggle');
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+        document.body.setAttribute('data-theme', currentTheme);
+        if (themeToggle) {
+            themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+            themeToggle.addEventListener('click', () => {
+                currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.body.setAttribute('data-theme', currentTheme);
+                themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+                localStorage.setItem('theme', currentTheme);
+            });
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>';
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('registerName').value,
+                        email: document.getElementById('registerEmail').value,
+                        password: document.getElementById('registerPassword').value
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('✅ ' + data.message);
+                    showLogin();
+                } else {
+                    showNotification('❌ ' + data.error);
+                }
+            } catch (error) {
+                showNotification('❌ هەڵەیەک ڕوویدا');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<span>خۆ تۆمارکردن</span>';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span>';
+
+            try {
+                const response = await fetch(`${SERVER_URL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('loginEmail').value,
+                        password: document.getElementById('loginPassword').value
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.setItem('kurdlive_token', data.token);
+                    localStorage.setItem('kurdlive_user', JSON.stringify(data.user));
+                    showChatInterface();
+                } else {
+                    showNotification('❌ ' + data.error);
+                }
+            } catch (error) {
+                showNotification('❌ هەڵەیەک ڕوویدا');
+            }
+
+            btn.disabled = false;
+            btn.innerHTML = '<span>چوونەژوورەوە</span>';
+        });
+
+        function logout() {
+            localStorage.removeItem('kurdlive_token');
+            localStorage.removeItem('kurdlive_user');
+            if (socket) socket.disconnect();
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+            }
+            location.reload();
+        }
+
+        function showChatInterface() {
+            const user = JSON.parse(localStorage.getItem('kurdlive_user'));
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('chatInterface').classList.add('active');
+            
+            initializeSocket();
+            updateStats();
+        }
+
+        function initializeSocket() {
+            socket = io(SERVER_URL);
+            
+            socket.on('matched', async (data) => {
+                showNotification('🎉 کەسێک دۆزرایەوە!');
+                await createPeerConnection(data.peerId);
+            });
+
+            socket.on('offer', async (data) => {
+                await handleOffer(data.offer);
+            });
+
+            socket.on('answer', async (data) => {
+                await handleAnswer(data.answer);
+            });
+
+            socket.on('ice-candidate', async (data) => {
+                await handleNewICECandidate(data.candidate);
+            });
+
+            socket.on('chat-message', (data) => {
+                addMessage(data.message, 'stranger');
+            });
+
+            socket.on('peer-disconnected', () => {
+                showNotification('⚠️ کەسەکەی تر ڕۆیشت');
+                resetConnection();
+            });
+        }
+
+        const configuration = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
+                {
+                    urls: 'turn:openrelay.metered.ca:80',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                }
+            ]
+        };
+
+        async function createPeerConnection(peerId) {
+            peerConnection = new RTCPeerConnection(configuration);
+
+            localStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, localStream);
+            });
+
+            peerConnection.ontrack = (event) => {
+                document.getElementById('remoteVideo').srcObject = event.streams[0];
+                document.getElementById('noRemoteVideo').style.display = 'none';
+                document.getElementById('connectionQuality').style.display = 'flex';
+            };
+
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.emit('ice-candidate', { candidate: event.candidate });
+                }
+            };
+
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            socket.emit('offer', { offer });
+        }
+
+        async function handleOffer(offer) {
+            if (!peerConnection) {
+                peerConnection = new RTCPeerConnection(configuration);
+                
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                });
+
+                peerConnection.ontrack = (event) => {
+                    document.getElementById('remoteVideo').srcObject = event.streams[0];
+                    document.getElementById('noRemoteVideo').style.display = 'none';
+                    document.getElementById('connectionQuality').style.display = 'flex';
+                };
+
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) {
+                        socket.emit('ice-candidate', { candidate: event.candidate });
+                    }
+                };
+            }
+
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            socket.emit('answer', { answer });
+        }
+
+        async function handleAnswer(answer) {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+        }
+
+        async function handleNewICECandidate(candidate) {
+            try {
+                await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+            } catch (error) {
+                console.error('Error adding ICE candidate:', error);
+            }
+        }
+
+        function resetConnection() {
+            if (peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
+            document.getElementById('noRemoteVideo').style.display = 'flex';
+            document.getElementById('connectionQuality').style.display = 'none';
+        }
+
+        async function updateStats() {
+            try {
+                const response = await fetch(`${SERVER_URL}/api/stats`);
+                const data = await response.json();
+                document.getElementById('onlineCount').textContent = data.onlineUsers;
+            } catch (error) {
+                document.getElementById('onlineCount').textContent = '0';
+            }
+            setTimeout(updateStats, 10000);
+        }
+
+        document.getElementById('startBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('startBtn');
+            btn.innerHTML = '<span class="loading"></span><span>چاوەڕوان...</span>';
+            btn.disabled = true;
+
+            try {
+                const hdEnabled = document.getElementById('hdQuality').classList.contains('active');
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: hdEnabled ? 1280 : 640 },
+                        height: { ideal: hdEnabled ? 720 : 480 },
+                        facingMode: 'user'
+                    },
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
+                
+                document.getElementById('localVideo').srcObject = localStream;
+                document.getElementById('noLocalVideo').style.display = 'none';
+                
+                socket.emit('join', { token: currentToken });
+                
+                btn.style.display = 'none';
+                document.getElementById('nextBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = false;
+                document.getElementById('toggleVideoBtn').disabled = false;
+                document.getElementById('toggleAudioBtn').disabled = false;
+                document.getElementById('messageInput').disabled = false;
+                document.getElementById('sendBtn').disabled = false;
+                
+                showNotification('✅ کامێرا و مایک فعال کران');
+            } catch (error) {
+                console.error('Camera error:', error);
+                showNotification('❌ نەتوانرا دەستگەیشتن بە کامێرا/مایک');
+                btn.innerHTML = '<span>🎥</span><span>دەستپێکردن</span>';
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            resetConnection();
+            socket.emit('next');
+            addMessage('گەڕان بۆ کەسێکی نوێ...', 'system');
+        });
+
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                document.getElementById('localVideo').srcObject = null;
+                document.getElementById('noLocalVideo').style.display = 'flex';
+            }
+            resetConnection();
+            if (socket) socket.disconnect();
+
+            document.getElementById('startBtn').style.display = 'flex';
+            document.getElementById('startBtn').innerHTML = '<span>🎥</span><span>دەستپێکردن</span>';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('toggleVideoBtn').disabled = true;
+            document.getElementById('toggleAudioBtn').disabled = true;
+            document.getElementById('messageInput').disabled = true;
+            document.getElementById('sendBtn').disabled = true;
+
+            showNotification('👋 پەیوەندی کۆتایی هات');
+        });
+
+        document.getElementById('toggleVideoBtn').addEventListener('click', () => {
+            if (localStream) {
+                videoEnabled = !videoEnabled;
+                localStream.getVideoTracks().forEach(track => {
+                    track.enabled = videoEnabled;
+                });
+                
+                const icon = document.getElementById('videoIcon');
+                const text = document.getElementById('videoText');
+                
+                if (videoEnabled) {
+                    icon.textContent = '📹';
+                    text.textContent = 'کامێرا';
+                    document.getElementById('noLocalVideo').style.display = 'none';
+                } else {
+                    icon.textContent = '🚫';
+                    text.textContent = 'داخراوە';
+                    document.getElementById('noLocalVideo').style.display = 'flex';
+                }
+            }
+        });
+
+        document.getElementById('toggleAudioBtn').addEventListener('click', () => {
+            if (localStream) {
+                audioEnabled = !audioEnabled;
+                localStream.getAudioTracks().forEach(track => {
+                    track.enabled = audioEnabled;
+                });
+                
+                const icon = document.getElementById('audioIcon');
+                const text = document.getElementById('audioText');
+                
+                if (audioEnabled) {
+                    icon.textContent = '🎤';
+                    text.textContent = 'مایک';
+                } else {
+                    icon.textContent = '🔇';
+                    text.textContent = 'داخراوە';
+                }
+            }
+        });
+
+        document.getElementById('sendBtn').addEventListener('click', () => {
+            const input = document.getElementById('messageInput');
+            if (input.value.trim() && socket) {
+                socket.emit('chat-message', { message: input.value });
+                addMessage(input.value, 'you');
+                input.value = '';
+            }
+        });
+
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('sendBtn').click();
+            }
+        });
+
+        document.getElementById('autoReconnect').addEventListener('click', (e) => {
+            e.target.classList.toggle('active');
+        });
+
+        document.getElementById('soundNotif').addEventListener('click', (e) => {
+            e.target.classList.toggle('active');
+        });
+
+        document.getElementById('hdQuality').addEventListener('click', (e) => {
+            e.target.classList.toggle('active');
+        });
+
+        function addMessage(text, type) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.textContent = text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 4000);
+        }
+    </script>
+</body>
+</html>
+HTMLEOF
